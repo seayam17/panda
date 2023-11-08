@@ -15,7 +15,7 @@
 
 <body>
     <header>
-        <div class="container-fluid header_part">
+        <div class="container-fluid header_part no_print">
             <div class="row">
                 <div class="col-md-2"></div>
                 <div class="col-md-7"></div>
@@ -39,7 +39,7 @@
     <section>
         <div class="container-fluid content_part">
             <div class="row">
-                <div class="col-md-2 sidebar_part">
+                <div class="col-md-2 sidebar_part no_print">
                     <div class="user_part">
                         <img class="" src="{{asset('contents/admin')}}/images/avatar.png" alt="avatar" />
                         <h5>{{Auth::user()->name}}</h5>
@@ -66,7 +66,7 @@
                 </div>
                 <div class="col-md-10 content">
                     <div class="row">
-                        <div class="col-md-12 breadcumb_part">
+                        <div class="col-md-12 breadcumb_part no_print">
                             <div class="bread">
                                 <ul>
                                     <li><a href=""><i class="fas fa-home"></i>Home</a></li>

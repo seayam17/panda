@@ -311,3 +311,13 @@ span.req_star{
 .modal_footer{
 
 }
+
+@media print{
+    .no_print{
+        display: none;
+    }
+
+    .dataTables_length, .dataTables_filter, .dataTables_paginate, .dataTables_info{
+        display: none;
+    }
+}

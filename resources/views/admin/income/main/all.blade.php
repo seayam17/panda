@@ -8,7 +8,7 @@
           <div class="col-md-8 card_title_part">
             <i class="fab fa-gg-circle"></i>All Income Information
           </div>
-          <div class="col-md-4 card_button_part">
+          <div class="col-md-4 card_button_part no_print">
             <a href="{{url('dashboard/income/add')}}" class="btn btn-sm btn-dark"><i class="fas fa-plus-circle"></i>Add Income</a>
           </div>
         </div>
@@ -37,7 +37,7 @@
               <th>Title</th>
               <th>Category</th>
               <th>Amount</th>
-              <th>Manage</th>
+              <th class="no_print">Manage</th>
             </tr>
           </thead>
           <tbody>
@@ -47,7 +47,7 @@
               <td>{{$data->income_title}}</td>
               <td>{{$data->categoryInfo->incate_name}}</td>
               <td>{{number_format($data->income_amount,2)}}</td>
-              <td>
+              <td class="no_print">
                 <div class="btn-group btn_group_manage" role="group">
                   <button type="button" class="btn btn-sm btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Manage</button>
                   <ul class="dropdown-menu">
@@ -62,7 +62,7 @@
           </tbody>
         </table>
       </div>
-      <div class="card-footer">
+      <div class="card-footer no_print">
         <div class="btn-group" role="group" aria-label="Button group">
           <button type="button" onclick="window.print()" class="btn btn-sm btn-dark">Print</button>
           <a href="{{url('dashboard/income/pdf')}}" class="btn btn-sm btn-secondary">PDF</a>
