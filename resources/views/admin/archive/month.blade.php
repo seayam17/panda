@@ -1,8 +1,18 @@
 @extends('layouts.admin')
 @section('content')
 @php
-$all_income=App\Models\Income::select(DB::raw('count(*) as total'),DB::raw('Year(income_date)year, Month(income_date)month'))->groupby('year','month')->orderBy('income_date','DESC')->get();
-$all_expense=App\Models\Expense::select(DB::raw('count(*) as total'),DB::raw('Year(expense_date)year, Month(expense_date)month'))->groupby('year','month')->orderBy('expense_date','DESC')->get();
+$tumi=$month;
+$now=Carbon\Carbon::parse($tumi)->toDateTimeString();
+$year=date('Y',strtotime($now));
+$month=date('m',strtotime($now));
+$date=date('d',strtotime($now));
+$monthName=date('F-Y',strtotime($tumi));
+
+$allIncome=App\Models\Income::where('income_status',1)->whereYear('income_date','=',$year)->whereMonth('income_date','=',$month)->get();
+$allExpense=App\Models\Expense::where('expense_status',1)->whereYear('expense_date','=',$year)->whereMonth('expense_date','=',$month)->get();
+$total_income=App\Models\Income::where('income_status',1)->whereYear('income_date','=',$year)->whereMonth('income_date','=',$month)->sum('income_amount');
+$total_expense=App\Models\Expense::where('expense_status',1)->whereYear('expense_date','=',$year)->whereMonth('expense_date','=',$month)->sum('expense_amount');
+$total_savings=($total_income-$total_expense);
 @endphp
 <div class="row">
   <div class="col-md-12">
@@ -10,7 +20,7 @@ $all_expense=App\Models\Expense::select(DB::raw('count(*) as total'),DB::raw('Ye
       <div class="card-header">
         <div class="row">
           <div class="col-md-8 card_title_part">
-            <i class="fab fa-gg-circle"></i>Income Expense Archive
+            <i class="fab fa-gg-circle"></i>{{$monthName}} :: Income Expense Statement
           </div>
           <div class="col-md-4 card_button_part">
             <a href="{{url('dashboard/income')}}" class="btn btn-sm btn-dark"><i class="fas fa-th"></i>All Income</a>
@@ -38,59 +48,42 @@ $all_expense=App\Models\Expense::select(DB::raw('count(*) as total'),DB::raw('Ye
         <table id="alltableDesc" class="table table-bordered table-striped table-hover custom_table">
           <thead class="table-dark">
             <tr>
-              <th>Month</th>
+              <th>Date</th>
+              <th>Title</th>
+              <th>Category</th>
               <th>Income</th>
               <th>Expense</th>
-              <th>Savings</th>
-              <th>Manage</th>
             </tr>
           </thead>
           <tbody>
-            @foreach($months as $months)
+            @foreach($allIncome as $income)
             <tr>
-              <td>
-                @php
-                $year=$months->year;
-                $month=$months->month;
-                $year_month=$year.'-'.$month;
-                $month_year=date('F-Y',strtotime($year_month));
-                echo $month_year;
-                @endphp
-              </td>
-              <td>
-                @php
-                $total_income=App\Models\Income::where('income_status',1)->whereYear('income_date','=',$year)->whereMonth('income_date','=',$month)->sum('income_amount');
-                echo number_format($total_income,2);
-                @endphp
-              </td>
-              <td>
-                @php
-                $total_expense=App\Models\Expense::where('expense_status',1)->whereYear('expense_date','=',$year)->whereMonth('expense_date','=',$month)->sum('expense_amount');
-                echo number_format($total_expense,2);
-                @endphp
-              </td>
-              <td>
-                @php
-                $monthly_savings=($total_income-$total_expense);
-                echo number_format($monthly_savings,2);
-                @endphp
-              </td>
-              <td>
-                <div class="btn-group btn_group_manage" role="group">
-                  <button type="button" class="btn btn-sm btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Manage</button>
-                  <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="{{url('dashboard/archive/month/'.$month_year)}}">Details</a></li>
-                  </ul>
-                </div>
-              </td>
+              <td>{{date('d-m-Y',strtotime($income->income_date))}}</td>
+              <td>{{$income->income_title}}</td>
+              <td>{{$income->categoryInfo->incate_name}}</td>
+              <td>{{number_format($income->income_amount,2)}}</td>
+              <td></td>
+            </tr>
+            @endforeach
+            @foreach($allExpense as $expense)
+            <tr>
+              <td>{{date('d-m-Y',strtotime($expense->expense_date))}}</td>
+              <td>{{$expense->expense_title}}</td>
+              <td>{{$expense->categoryInfo->expcate_name}}</td>
+              <td></td>
+              <td>{{number_format($expense->expense_amount,2)}}</td>
             </tr>
             @endforeach
           </tbody>
           <tfoot>
             <tr>
-              <th colspan="3" class="text-end"><b>Total Savings:</b>
-              </th>
-              <th colspan="2"></th>
+              <th colspan="3" class="text-end"><b>Total:</b></th>
+              <th>{{number_format($total_income,2)}}</th>
+              <th>{{number_format($total_expense,2)}}</th>
+            </tr>
+            <tr>
+              <th colspan="3" class="text-end text-success"><b>Savings:</b></th>
+              <th colspan="2">{{number_format($total_savings,2)}}</th>
             </tr>
           </tfoot>
         </table>
