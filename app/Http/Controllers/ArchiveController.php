@@ -1,13 +1,13 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
 use Session;
 use Auth;
 use Illuminate\Support\Facades\DB;
-
-use Illuminate\Http\Request;
 
 class ArchiveController extends Controller
 {

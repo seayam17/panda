@@ -46,12 +46,12 @@ $all_expense=App\Models\Expense::select(DB::raw('count(*) as total'),DB::raw('Ye
             </tr>
           </thead>
           <tbody>
-            @foreach($months as $months)
+            @foreach($months as $income)
             <tr>
               <td>
                 @php
-                $year=$months->year;
-                $month=$months->month;
+                $year=$income->year;
+                $month=$income->month;
                 $year_month=$year.'-'.$month;
                 $month_year=date('F-Y',strtotime($year_month));
                 echo $month_year;

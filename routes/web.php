@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ManageController;
 use App\Http\Controllers\IncomeController;
 use App\Http\Controllers\IncomeCategoryController;
 use App\Http\Controllers\ExpenseController;
@@ -43,6 +44,14 @@ Route::post('dashboard/user/update', [UserController::class, 'update']);
 Route::post('dashboard/user/softdelete', [UserController::class, 'softdelete']);
 Route::post('dashboard/user/restore', [UserController::class, 'restore']);
 Route::post('dashboard/user/delete', [UserController::class, 'delete']);
+
+Route::get('dashboard/manage', [ManageController::class, 'index']);
+Route::get('dashboard/manage/basic', [ManageController::class, 'basic']);
+Route::post('dashboard/manage/basic/update', [ManageController::class, 'basic_update']);
+Route::get('dashboard/manage/social', [ManageController::class, 'social']);
+Route::post('dashboard/manage/social/update', [ManageController::class, 'social_update']);
+Route::get('dashboard/manage/contact', [ManageController::class, 'contact']);
+Route::post('dashboard/manage/contact/update', [ManageController::class, 'contact_update']);
 
 Route::get('dashboard/income', [IncomeController::class, 'index']);
 Route::get('dashboard/income/add', [IncomeController::class, 'add']);
@@ -87,7 +96,7 @@ Route::post('dashboard/expense/category/restore', [ExpenseCategoryController::cl
 Route::post('dashboard/expense/category/delete', [ExpenseCategoryController::class, 'delete']);
 
 Route::get('dashboard/archive', [ArchiveController::class, 'index']);
-Route::get('dashboard/archive/{month_year}', [ArchiveController::class, 'month']);
+Route::get('dashboard/archive/month/{month_year}', [ArchiveController::class, 'month']);
 
 Route::get('dashboard/report', [ReportController::class, 'index']);
 Route::get('dashboard/report/summary', [ReportController::class, 'summary']);
