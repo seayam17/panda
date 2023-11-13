@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 use App\Models\Basic;
 use App\Models\SocialMedia;
 use App\Models\ContactInformation;
+use Intervention\Image\Facades\Image;
 use Carbon\Carbon;
 use Session;
 use Auth;
@@ -23,11 +24,69 @@ class ManageController extends Controller
     }
 
     public function basic(){
-        return view('admin.manage.basic');
+        $data=Basic::where('basic_status',1)->where('basic_id',1)->firstOrFail();
+        return view('admin.manage.basic',compact('data'));
     }
 
-    public function basic_update(){
+    public function basic_update(Request $request){
+        $this->validate($request,[
+            'company'=>'required|max:100',
+        ],[
+            'company.required'=>'Please enter your company name.'
+        ]);
 
+        $editor = Auth::user()->id;
+
+        $update = Basic::where('basic_id',1)->update([
+            'basic_company' => $request['company'],
+            'basic_title' => $request['title'],
+            'basic_editor' => $editor,
+            'updated_at' => Carbon::now()->toDateTimeString(),
+        ]);
+
+        if($request->hasFile('logo')){
+            $logo=$request->file('logo');
+            $logoName='basic_'.time().'.'.$logo->getClientOriginalExtension();
+            Image::make($logo)->save('uploads/basic/'.$logoName);
+
+
+            Basic::where('basic_id',1)->update([
+                'basic_logo'=>$logoName,
+                'updated_at'=>Carbon::now()->toDateTimeString(),
+            ]);
+        }
+
+        if($request->hasFile('favicon')){
+            $favicon=$request->file('favicon');
+            $faviconName='favicon_'.time().'.'.$favicon->getClientOriginalExtension();
+            Image::make($favicon)->save('uploads/basic/'.$faviconName);
+
+
+            Basic::where('basic_id',1)->update([
+                'basic_favicon'=>$faviconName,
+                'updated_at'=>Carbon::now()->toDateTimeString(),
+            ]);
+        }
+
+        if($request->hasFile('flogo')){
+            $flogo=$request->file('flogo');
+            $flogoName='flogo_'.time().'.'.$flogo->getClientOriginalExtension();
+            Image::make($flogo)->save('uploads/basic/'.$flogoName);
+
+
+            Basic::where('basic_id',1)->update([
+                'basic_flogo'=>$flogoName,
+                'updated_at'=>Carbon::now()->toDateTimeString(),
+            ]);
+        }
+
+        if ($update) {
+            Session::flash('success', 'Successfully update basic information.');
+            return redirect('dashboard/manage/basic');
+        } else {
+            Session::flash('error', 'Opps! Operation failed.');
+            return redirect('dashboard/manage/basic');
+        }
     }
 
     public function social(){
