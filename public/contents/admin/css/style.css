@@ -117,7 +117,7 @@ body{
 }
 
 .menu ul li a{
-   color: #ccc;
+    color: #ccc;
 	font-size: 14px;
 	font-weight: 500;
 	text-decoration: none;
@@ -134,6 +134,32 @@ body{
 
 .menu ul li a i{
     margin-right: 5px;   
+}
+
+.menu ul li ul{
+	border-bottom: 1px solid #17181F;
+}
+
+.menu ul li ul li a{
+    display: none;
+    padding-left: 30px;
+    border-bottom: none;
+    color: #ccc;
+	font-size: 14px;
+	font-weight: 500;
+	text-decoration: none;
+	line-height: 40px;
+	transition: all linear 0.3s;
+}
+
+.menu ul li:hover ul li a{
+    display: block;
+    background-color: transparent;
+}
+
+.menu ul li ul li:hover a{
+    color: black;
+    background-color: skyblue;
 }
 
 .content{
