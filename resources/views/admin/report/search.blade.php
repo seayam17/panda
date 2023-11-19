@@ -1,10 +1,12 @@
 @extends('layouts.admin')
 @section('content')
 @php
-$allIncome=App\Models\Income::where('income_status',1)->orderBy('income_date','DESC')->get();
-$allExpense=App\Models\Expense::where('expense_status',1)->orderBy('expense_date','DESC')->get();
-$total_income=App\Models\Income::where('income_status',1)->sum('income_amount');
-$total_expense=App\Models\Expense::where('expense_status',1)->sum('expense_amount');
+$starting=$_GET['starting'] ?? '' ;
+$ending=$_GET['ending'] ?? '' ;
+$allIncome=App\Models\Income::where('income_status',1)->whereBetween('income_date',[$starting,$ending])->get();
+$allExpense=App\Models\Expense::where('expense_status',1)->whereBetween('expense_date',[$starting,$ending])->get();
+$total_income=App\Models\Income::where('income_status',1)->whereBetween('income_date',[$starting,$ending])->sum('income_amount');
+$total_expense=App\Models\Expense::where('expense_status',1)->whereBetween('expense_date',[$starting,$ending])->sum('expense_amount');
 $total_savings=($total_income-$total_expense);
 @endphp
 <div class="row">
@@ -44,10 +46,12 @@ $total_savings=($total_income-$total_expense);
             <form method="get" action="{{url('dashboard/report/search')}}" role="search">
             <div class="row g-2">
           <div class="col-md-5">
-              <input class="form-control me-2" id="startDate" name="starting" type="search" placeholder="From" aria-label="Search">
+              <input class="form-control me-2" id="startDate"
+              name="starting" type="search" placeholder="From" aria-label="Search">
           </div>
           <div class="col-md-5">
-              <input class="form-control me-2" id="endDate" name="ending" type="search" placeholder="To" aria-label="Search">
+              <input class="form-control me-2" id="endDate"
+              name="ending" type="search" placeholder="To" aria-label="Search">
           </div>
           <div class="col-md-2">
           <button class="btn btn-outline-primary" type="submit">SEARCH</button>
@@ -96,7 +100,7 @@ $total_savings=($total_income-$total_expense);
                   <th>{{number_format($total_expense,2)}}</th>
                 </tr>
                 <tr>
-                  @if($total_savings > 0)
+                  @if($total_savings >= 0)
                   <th colspan="3" class="text-end text-success"><b>Savings:</b></th>
                   @else
                   <th colspan="3" class="text-end text-danger"><b>Over Expense:</b></th>

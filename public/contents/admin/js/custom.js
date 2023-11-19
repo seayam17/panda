@@ -47,6 +47,16 @@ $(document).ready(function () {
         "info":true,
         "autoWidth":false
     });
+
+    $('#summary').DataTable({
+        "paging":true,
+        "lengthChange":false,
+        "searching":false,
+        "ordering":true,
+        "order":[[0,"desc"]],
+        "info":true,
+        "autoWidth":false
+    });
 });
 
 // Datepicker setting code start
@@ -56,7 +66,12 @@ $(function(){
         format: 'yyyy-mm-dd',
         todayHighlight: true
     });
-    $('#starDate').datepicker({
+    $('#startDate').datepicker({
+        autoclose: true,
+        format: 'yyyy-mm-dd',
+        todayHighlight: true
+    });
+    $('#endDate').datepicker({
         autoclose: true,
         format: 'yyyy-mm-dd',
         todayHighlight: true
