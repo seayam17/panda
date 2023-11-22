@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="{{asset('contents/admin')}}/css/datatables.min.css">
     <link rel="stylesheet" href="{{asset('contents/admin')}}/css/bootstrap-datepicker.min.css">
     <link rel="stylesheet" href="{{asset('contents/admin')}}/css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
@@ -52,31 +53,31 @@
                             <li><a href="{{url('dashboard/user')}}"><i class="fas fa-user-circle"></i> Users</a></li>
                             @endif
                             <li><a href="#"><i class="fas fa-cogs"></i> Manage</a>
-                            <ul>
-                                <li><a href="{{url('dashboard/manage/basic')}}">Basic Information</a></li>
-                                <li><a href="{{url('dashboard/manage/social')}}">Social Media Information</a></li>
-                                <li><a href="{{url('dashboard/manage/contact')}}">Contact Information</a></li>
-                            </ul>
+                                <ul>
+                                    <li><a href="{{url('dashboard/manage/basic')}}">Basic Information</a></li>
+                                    <li><a href="{{url('dashboard/manage/social')}}">Social Media Information</a></li>
+                                    <li><a href="{{url('dashboard/manage/contact')}}">Contact Information</a></li>
+                                </ul>
                             </li>
                             @if(Auth::user()->role<='2') <li><a href="#"><i class="fas fa-wallet"></i> Income</a>
-                            <ul>
-                                <li><a href="{{url('dashboard/income')}}">All Income</a></li>
-                                <li><a href="{{url('dashboard/income/add')}}">Add Income</a></li>
-                                <li><a href="{{url('dashboard/income/category')}}">Income Category</a></li>
-                            </ul>
-                            </li>
-                            @endif
-                            <li><a href="#"><i class="fas fa-coins"></i> Expense</a>
-                            <ul>
-                                <li><a href="{{url('dashboard/expense')}}">All Expense</a></li>
-                                <li><a href="{{url('dashboard/expense/add')}}">Add Expense</a></li>
-                                <li><a href="{{url('dashboard/expense/category')}}">Expense Category</a></li>
-                            </ul>
-                            </li>
-                            <li><a href="{{url('dashboard/archive')}}"><i class="fas fa-box"></i> Archive</a></li>
-                            <li><a href="{{url('dashboard/report/summary')}}"><i class="fas fa-file-alt"></i> Reports</a></li>
-                            <li><a href="#"><i class="fas fa-trash"></i> Recycle Bin</a></li>
-                            <li><a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('frm-logout').submit();"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                                <ul>
+                                    <li><a href="{{url('dashboard/income')}}">All Income</a></li>
+                                    <li><a href="{{url('dashboard/income/add')}}">Add Income</a></li>
+                                    <li><a href="{{url('dashboard/income/category')}}">Income Category</a></li>
+                                </ul>
+                                </li>
+                                @endif
+                                <li><a href="#"><i class="fas fa-coins"></i> Expense</a>
+                                    <ul>
+                                        <li><a href="{{url('dashboard/expense')}}">All Expense</a></li>
+                                        <li><a href="{{url('dashboard/expense/add')}}">Add Expense</a></li>
+                                        <li><a href="{{url('dashboard/expense/category')}}">Expense Category</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="{{url('dashboard/archive')}}"><i class="fas fa-box"></i> Archive</a></li>
+                                <li><a href="{{url('dashboard/report/summary')}}"><i class="fas fa-file-alt"></i> Reports</a></li>
+                                <li><a href="#"><i class="fas fa-trash"></i> Recycle Bin</a></li>
+                                <li><a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('frm-logout').submit();"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
                         </ul>
                         <form id="frm-logout" action="{{ route('logout') }}" method="POST" style="display: none;">
                             @csrf
@@ -115,6 +116,7 @@
     <script src="{{asset('contents/admin')}}/js/datatables.min.js"></script>
     <script src="{{asset('contents/admin')}}/js/bootstrap-datepicker.min.js"></script>
     <script src="{{asset('contents/admin')}}/js/custom.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </body>
 
 </html>
